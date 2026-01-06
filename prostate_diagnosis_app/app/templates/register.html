@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Register - ProDiag{% endblock %}
+
+{% block content %}
+<section class="d-flex justify-content-center align-items-center min-vh-100 bg-light mt-5">
+  <div class="card shadow-sm p-4 rounded-4" style="max-width: 500px; width: 100%;">
+    <h3 class="text-center mb-3 fw-semibold text-dark">Create an Account</h3>
+    <p class="text-center text-muted mb-4">Join <strong>ProDiag</strong> to begin diagnosing and managing records.</p>
+
+    <form method="POST" action="{{ url_for('main.register') }}">
+      {{ form.hidden_tag() }}
+
+      <div class="mb-3">
+        {{ form.first_name.label(class="form-label") }}
+        {{ form.first_name(class="form-control", placeholder="Your first name") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.last_name.label(class="form-label") }}
+        {{ form.last_name(class="form-control", placeholder="Your last name") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control", placeholder="Your email address") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.password.label(class="form-label") }}
+        <div class="position-relative">
+          {{ form.password(class="form-control pe-5", id="passwordInput", placeholder="Enter password") }}
+          <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor: pointer;" id="togglePassword">
+            <i class="bi bi-eye" id="togglePasswordIcon"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        {{ form.confirm_password.label(class="form-label") }}
+        <div class="position-relative">
+          {{ form.confirm_password(class="form-control pe-5", id="confirmPasswordInput", placeholder="Confirm password") }}
+          <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor: pointer;" id="toggleConfirmPassword">
+            <i class="bi bi-eye" id="toggleConfirmPasswordIcon"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="d-grid mb-3">
+        <button type="submit" class="btn btn-dark">Register</button>
+      </div>
+
+      <p class="text-center text-muted small mb-0">
+        Already have an account? <a href="{{ url_for('main.login') }}">Login</a>
+      </p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const togglePassword = document.getElementById('togglePassword');
+  const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+  const passwordInput = document.getElementById('passwordInput');
+  const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+  const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+  const toggleConfirmPasswordIcon = document.getElementById('toggleConfirmPasswordIcon');
+
+  togglePassword.addEventListener('click', () => {
+    const isPassword = passwordInput.type === 'password';
+    passwordInput.type = isPassword ? 'text' : 'password';
+    togglePasswordIcon.classList.toggle('bi-eye');
+    togglePasswordIcon.classList.toggle('bi-eye-slash');
+  });
+
+  toggleConfirmPassword.addEventListener('click', () => {
+    const isPassword = confirmPasswordInput.type === 'password';
+    confirmPasswordInput.type = isPassword ? 'text' : 'password';
+    toggleConfirmPasswordIcon.classList.toggle('bi-eye');
+    toggleConfirmPasswordIcon.classList.toggle('bi-eye-slash');
+  });
+</script>
+{% endblock %}

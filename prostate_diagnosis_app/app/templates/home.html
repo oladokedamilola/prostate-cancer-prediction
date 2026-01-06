@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Welcome - ProDiag{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section with Background Image -->
+<section class="text-white text-center d-flex align-items-center justify-content-center" style="background: url('/static/images/hero.jpeg') no-repeat center center; background-size: cover; height: 100vh;">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Welcome to <span class="text-primary">ProDiag</span></h1>
+    <p class="lead mt-3 mb-4">
+      AI-powered prostate cancer diagnosis system. Fast. Accurate. Reliable.
+    </p>
+
+    {% if not current_user.is_authenticated %}
+      <a href="{{ url_for('main.login') }}" class="btn btn-outline-light me-2">Login</a>
+      <a href="{{ url_for('main.register') }}" class="btn btn-primary">Get Started</a>
+    {% else %}
+      <a href="{{ url_for('main.diagnose') }}" class="btn btn-primary">Go to Diagnosis</a>
+    {% endif %}
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-light text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-4">How It Works</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="p-4">
+          <i class="bi bi-person-check fs-1 text-primary mb-3"></i>
+          <h5>1. Register or Login</h5>
+          <p>Create a secure account to access diagnostic tools.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="p-4">
+          <i class="bi bi-ui-checks fs-1 text-success mb-3"></i>
+          <h5>2. Input Patient Symptoms</h5>
+          <p>Use our simple form to enter key clinical features.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="p-4">
+          <i class="bi bi-graph-up-arrow fs-1 text-danger mb-3"></i>
+          <h5>3. Get Instant Results</h5>
+          <p>Receive ML-powered diagnostic results with confidence scores.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose ProDiag Section -->
+<section class="py-5 text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-4">Why Choose ProDiag?</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="p-4 shadow-sm rounded border h-100">
+          <i class="bi bi-lightning-charge-fill fs-2 text-warning mb-3"></i>
+          <h5 class="mt-2">Fast & Reliable</h5>
+          <p>Get results instantly with machine learning-backed inference.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="p-4 shadow-sm rounded border h-100">
+          <i class="bi bi-cpu fs-2 text-info mb-3"></i>
+          <h5 class="mt-2">AI-Powered Precision</h5>
+          <p>Our ML model is trained on verified clinical data to ensure accuracy.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="p-4 shadow-sm rounded border h-100">
+          <i class="bi bi-shield-lock-fill fs-2 text-success mb-3"></i>
+          <h5 class="mt-2">Privacy Focused</h5>
+          <p>Your data is encrypted and securely stored—privacy comes first.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

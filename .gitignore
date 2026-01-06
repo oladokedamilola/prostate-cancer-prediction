@@ -1,0 +1,28 @@
+venv
+
+chapter_4_prostrate_cancer.docx
+chapter_4_prostrate_cancer.pdf
+Chapter_Five_ prostate_cancer_project.docx
+
+19_files
+
+# Ignore all .log files
+*.log
+temp/
+.DS_Store
+.idea/
+*.iml
+__pycache__/
+*.pyc
+.env
+.env.local
+.env.*.local
+*.sqlite3
+node_modules/
+dist/
+build/
+coverage/
+*.bak
+*.tmp
+*.swp
+*.swo

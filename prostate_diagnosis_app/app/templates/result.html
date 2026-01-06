@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Diagnosis Result - ProDiag{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg border-0 rounded-4 p-4 bg-white">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4 text-primary fw-bold">Diagnosis Result</h2>
+
+          <div id="typewriter-container" class="text-secondary fs-5" style="min-height: 100px;">
+            <!-- Typewriter text will appear here -->
+          </div>
+
+          <div class="mt-5">
+            <h5 class="fw-bold">Patient Name:</h5>
+            <p>{{ name }}</p>
+
+            <h5 class="fw-bold">Symptoms Provided:</h5>
+            <ul class="row">
+              {% for symptom, value in symptoms.items() %}
+                <li class="col-md-6">{{ symptom|title }}: <strong>{{ value }}</strong></li>
+              {% endfor %}
+            </ul>
+
+            <h5 class="fw-bold mt-4">Diagnosis:</h5>
+            <p class="text-dark">{{ result }}</p>
+
+            <h5 class="fw-bold">Confidence Score:</h5>
+            <p class="text-dark">{{ confidence }}%</p>
+          </div>
+
+          <div class="text-center mt-4">
+            <a href="{{ url_for('main.diagnose') }}" class="btn btn-primary px-4 py-2 me-2">
+              <i class="bi bi-arrow-repeat"></i> New Diagnosis
+            </a>
+
+            <button class="btn btn-outline-secondary px-4 py-2" data-bs-toggle="modal" data-bs-target="#downloadModal">
+              <i class="bi bi-download"></i> Download Result
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 📁 Download Modal -->
+<!-- Download Format Modal -->
+<div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 shadow">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="downloadModalLabel">Download Diagnosis Result</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center py-4">
+        <p class="text-secondary">Choose a format to download your diagnosis result:</p>
+        <div class="d-flex justify-content-center gap-3 mt-3">
+          <a href="{{ url_for('main.download_result', format='pdf', record_id=record_id) }}" class="btn btn-sm btn-danger">
+            <i class="bi bi-file-earmark-pdf-fill"></i> PDF
+          </a>
+          <a href="{{ url_for('main.download_result', format='docx', record_id=record_id) }}" class="btn btn-sm btn-primary">
+            <i class="bi bi-file-earmark-word-fill"></i> Microsft Word
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const text = "Based on the symptoms you provided, our system has processed the data and generated the following results:";
+  const container = document.getElementById("typewriter-container");
+
+  let index = 0;
+  function typeWriter() {
+    if (index < text.length) {
+      container.innerHTML += text.charAt(index);
+      index++;
+      setTimeout(typeWriter, 30);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", typeWriter);
+</script>
+{% endblock %}

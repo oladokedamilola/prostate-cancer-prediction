@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Diagnosis History - ProDiag{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="text-center text-primary fw-bold mb-4">Diagnosis History</h2>
+
+  <div class="row">
+    {% for record in diagnoses %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+          <div class="card-body">
+            <h5 class="card-title text-dark fw-semibold">{{ record.name }}</h5>
+            <p class="text-muted mb-2">Diagnosis Date: {{ record.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+            <ul class="list-unstyled small">
+              {% set first_three = record.symptoms.items()|list %}
+              {% for symptom, value in first_three[:3] %}
+                <li><strong>{{ symptom|capitalize }}:</strong> {{ value }}</li>
+              {% endfor %}
+
+              <li>...and more</li>
+            </ul>
+            <button class="btn btn-outline-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#modal{{ loop.index }}">
+              <i class="bi bi-eye"></i> View Full Result
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="modal{{ loop.index }}" tabindex="-1" aria-labelledby="modalLabel{{ loop.index }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content rounded-4">
+            <div class="modal-header bg-primary text-white rounded-top-4">
+              <h5 class="modal-title" id="modalLabel{{ loop.index }}">Full Diagnosis - {{ record.name }}</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-white">
+              <h6 class="fw-bold text-secondary">Patient Name:</h6>
+              <p>{{ record.name }}</p>
+
+              <h6 class="fw-bold text-secondary">Symptoms:</h6>
+              <ul class="row">
+                {% for symptom, value in record.symptoms.items() %}
+                  <li class="col-md-6">{{ symptom|title }}: <strong>{{ value }}</strong></li>
+                {% endfor %}
+              </ul>
+
+              <h6 class="fw-bold text-secondary mt-3">Diagnosis Result:</h6>
+              <p class="text-dark">{{ record.result }}</p>
+
+              <h6 class="fw-bold text-secondary">Confidence Score:</h6>
+              <p class="text-dark">{{ (record.confidence) * 100 }}%</p>
+
+              <h6 class="fw-bold text-secondary">Date & Time:</h6>
+              <p class="text-dark">{{ record.created_at.strftime('%A, %B %d, %Y @ %I:%M %p') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="alert alert-info text-center">No diagnosis records yet.</div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
